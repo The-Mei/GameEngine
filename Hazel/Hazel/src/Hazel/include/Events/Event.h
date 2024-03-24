@@ -2,8 +2,8 @@
 
 #include "Core.h"
 
-#include <string>
-#include <functional>
+// #include <string>
+// #include <functional>
 
 namespace Hazel
 {
@@ -82,7 +82,7 @@ namespace Hazel
         {
             if (mEvent.getEventType() == T::getStaticType())
             {
-                mEvent.Handled = func(*(T *)&mEvent);
+                mEvent.mHandled = func(*(T *)&mEvent);
                 return true;
             }
             return false;
