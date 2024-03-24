@@ -14,8 +14,14 @@ namespace Hazel
 
         void run();
 
+        void onEvent(Event &e);
+
+    private:
+        bool onWindowClose(class WindowCloseEvent &e);
+
     private:
         std::unique_ptr<Window> mWindow;
+        bool mRunning;
     };
 
     // To be defined in client
