@@ -1,6 +1,6 @@
 #include "Application.h"
 
-#include <GLFW/glfw3.h>
+#include "Gl/Gl.h"
 
 #include "Events/ApplicationEvent.h"
 namespace Hazel

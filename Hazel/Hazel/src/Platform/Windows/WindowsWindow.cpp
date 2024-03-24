@@ -2,8 +2,7 @@
 #include "Events/ApplicationEvent.h"
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
-// #include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "Gl/Gl.h"
 
 namespace Hazel
 {
@@ -47,8 +46,8 @@ namespace Hazel
 
         mWindow = glfwCreateWindow((int)props.width, (int)props.height, props.title.c_str(), nullptr, nullptr);
         glfwMakeContextCurrent(mWindow);
-        // int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-        // HZ_CORE_ASSERT(status, "Failed tp init Glad");
+        int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+        HZ_CORE_ASSERT(status, "Failed tp init Glad");
         glfwSetWindowUserPointer(mWindow, &mData);
         setVSync(true);
 

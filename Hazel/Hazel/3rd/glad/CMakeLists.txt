@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.17)
 
-project(glfw)
+project(glad)
 
 file(GLOB_RECURSE SRC 
 "src/*.c"
