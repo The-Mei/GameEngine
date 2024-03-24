@@ -8,7 +8,8 @@ set(OUTPUT_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/export/
                    ${CMAKE_CURRENT_SOURCE_DIR}/precompile/
                    ${CMAKE_CURRENT_SOURCE_DIR}/src/Hazel/include
                    ${CMAKE_CURRENT_SOURCE_DIR}/3rd/spdlog/include
-                   ${CMAKE_CURRENT_SOURCE_DIR}/src/Platform/Windows)
+                   ${CMAKE_CURRENT_SOURCE_DIR}/src/Platform/Windows
+                   )
 
 #set_source_files_properties(precompile/Hzpch.cpp
 #                            PROPERTIES

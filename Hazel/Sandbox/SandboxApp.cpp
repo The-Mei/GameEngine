@@ -1,9 +1,28 @@
 #include "Hazel.h"
 
+class ExampleLayer : public Hazel::Layer
+{
+public:
+    ExampleLayer() : Layer("Example") {}
+
+    void onUpdate() override
+    {
+        // LOGCI("ExampleLayer::update");
+    }
+
+    void onEvent(Hazel::Event &event) override
+    {
+        LOGCT("{0}", event);
+    }
+};
+
 class Sandbox : public Hazel::Application
 {
 public:
-    Sandbox() {}
+    Sandbox()
+    {
+        pushLayer(new ExampleLayer());
+    }
 
     ~Sandbox() {}
 };

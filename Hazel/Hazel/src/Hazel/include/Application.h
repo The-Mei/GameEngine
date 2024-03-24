@@ -3,6 +3,7 @@
 #include "Core.h"
 
 #include "Window.h"
+#include "Layer/LayerStack.h"
 
 namespace Hazel
 {
@@ -16,12 +17,16 @@ namespace Hazel
 
         void onEvent(Event &e);
 
+        void pushLayer(Layer *layer);
+        void pushOverlay(Layer *overlay);
+
     private:
         bool onWindowClose(class WindowCloseEvent &e);
 
     private:
         std::unique_ptr<Window> mWindow;
         bool mRunning;
+        LayerStack mLayerStack;
     };
 
     // To be defined in client

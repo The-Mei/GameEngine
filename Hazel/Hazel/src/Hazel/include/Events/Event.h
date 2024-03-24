@@ -64,7 +64,7 @@ namespace Hazel
             return getCategoryFlags() & category;
         }
 
-    protected:
+    public:
         bool mHandled = false;
     };
 
