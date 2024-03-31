@@ -3,6 +3,7 @@
 #include "Gl/Gl.h"
 
 #include "Events/ApplicationEvent.h"
+#include "Input.h"
 namespace Hazel
 {
     Application *Application::gInstance = nullptr;
@@ -50,6 +51,9 @@ namespace Hazel
             glClear(GL_COLOR_BUFFER_BIT);
             for (Layer *layer : mLayerStack)
                 layer->onUpdate();
+
+            auto [x, y] = Input::getMousePosition();
+            LOGT("{0}, {1}", x, y);
             mWindow->onUpdate();
         }
     }
