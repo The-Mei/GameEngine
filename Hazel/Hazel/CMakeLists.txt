@@ -9,7 +9,7 @@ set(OUTPUT_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/export/
                    ${CMAKE_CURRENT_SOURCE_DIR}/src/Hazel/include
                    ${CMAKE_CURRENT_SOURCE_DIR}/3rd/spdlog/include
                    ${CMAKE_CURRENT_SOURCE_DIR}/src/Platform/Windows
-                   )
+                   ${CMAKE_CURRENT_SOURCE_DIR}/src/Platform/Opengl)
 
 #set_source_files_properties(precompile/Hzpch.cpp
 #                            PROPERTIES
@@ -24,8 +24,9 @@ file(GLOB_RECURSE SRC
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/3rd/glfw)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/3rd/glad)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/3rd/imgui)
 
 add_library(${PROJECT_NAME} SHARED ${SRC})
-target_link_libraries(${PROJECT_NAME} PUBLIC glfw opengl32 glad)
+target_link_libraries(${PROJECT_NAME} PUBLIC glfw opengl32 glad imgui)
 target_include_directories(${PROJECT_NAME} PUBLIC ${OUTPUT_INCLUDE})
 target_precompile_headers(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/precompile/Hzpch.h)

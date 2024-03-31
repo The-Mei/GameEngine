@@ -4,6 +4,7 @@
 #include "Application.h"
 #include "Layer/LayerStack.h"
 #include "Log.h"
+#include "ImGui/ImGuiLayer.h"
 
 //---Entry Point----------------
 #include "EntryPoint.h"

@@ -5,8 +5,11 @@
 #include "Events/ApplicationEvent.h"
 namespace Hazel
 {
+    Application *Application::gInstance = nullptr;
+
     Application::Application() : mRunning(false)
     {
+        gInstance = this;
         mWindow = std::unique_ptr<Window>(Window::create());
         mWindow->setEventCallback(HZ_BIND_EVENT_FN(onEvent));
         mRunning = true;

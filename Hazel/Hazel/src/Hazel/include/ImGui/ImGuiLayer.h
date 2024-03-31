@@ -1,0 +1,35 @@
+#pragma once
+
+#include "Layer/Layer.h"
+
+#include "Events/KeyEvent.h"
+#include "Events/MouseEvent.h"
+#include "Events/ApplicationEvent.h"
+
+namespace Hazel
+{
+    class HAZEL_API ImGuiLayer : public Layer
+    {
+    public:
+        ImGuiLayer();
+        ~ImGuiLayer();
+
+        void onAttach();
+        void onDetach();
+        void onUpdate();
+        void onEvent(Event &event);
+
+    private:
+        bool onMouseButtonPressedEvent(MouseButtonPressedEvent &e);
+        bool onMouseButtonReleasedEvent(MouseButtonReleasedEvent &e);
+        bool onMouseMovedEvent(MouseMovedEvent &e);
+        bool onMouseScrolledEvent(MouseScrolledEvent &e);
+        bool onKeyPressedEvent(KeyPressedEvent &e);
+        bool onKeyReleasedEvent(KeyReleasedEvent &e);
+        bool onKeyTypedEvent(KeyTypedEvent &e);
+        bool onWindowResizedEvent(WindowResizeEvent &e);
+
+    private:
+        float mTime = 0.0f;
+    };
+}
