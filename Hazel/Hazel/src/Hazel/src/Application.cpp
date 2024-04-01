@@ -52,8 +52,6 @@ namespace Hazel
             for (Layer *layer : mLayerStack)
                 layer->onUpdate();
 
-            auto [x, y] = Input::getMousePosition();
-            LOGT("{0}, {1}", x, y);
             mWindow->onUpdate();
         }
     }
