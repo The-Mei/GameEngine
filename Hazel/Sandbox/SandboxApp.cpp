@@ -12,7 +12,7 @@ public:
 
     void onEvent(Hazel::Event &event) override
     {
-        //LOGCT("{0}", event);
+        // LOGCT("{0}", event);
     }
 };
 
