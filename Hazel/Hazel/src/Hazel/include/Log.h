@@ -23,6 +23,7 @@
 #define LOGCE(...) SPDLOG_LOGGER_ERROR(::Hazel::Log::getClientgLogger(), __VA_ARGS__)
 // #define LOGCF(...) (::Hazel::Log::getClientgLogger(), __VA_ARGS__)
 
+#define LOGTMP(msg, ...) Hazel::Log::logTmp("[%s:%s:%d]" msg, __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__)
 namespace Hazel
 {
     class HAZEL_API Log
@@ -32,6 +33,21 @@ namespace Hazel
 
         inline static std::shared_ptr<spdlog::logger> &getCoreLogger() { return mCoreLogger; }
         inline static std::shared_ptr<spdlog::logger> &getClientgLogger() { return mClientLogger; }
+
+        static void logTmp(const char *fmt, ...)
+        {
+            char msg[1024] = {};
+            va_list arg;
+            va_start(arg, fmt);
+            vsprintf(msg, fmt, arg);
+            va_end(arg);
+            char *pos = strrchr(msg, '\\');
+            if (pos)
+            {
+                int position = pos - msg + 1;
+                LOGI("{0}", &msg[position]);
+            }
+        }
 
     private:
         static std::shared_ptr<spdlog::logger> mCoreLogger;

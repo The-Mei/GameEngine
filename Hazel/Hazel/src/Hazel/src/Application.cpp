@@ -16,6 +16,27 @@ namespace Hazel
         mImGuiLayer = new ImGuiLayer();
         pushOverlay(mImGuiLayer);
         mRunning = true;
+
+        glGenVertexArrays(1, &mVao);
+        glBindVertexArray(mVao);
+
+        glGenBuffers(1, &mVbo);
+        glBindBuffer(GL_ARRAY_BUFFER, mVbo);
+
+        float vertex[] = {
+            -0.5, -0.5, 0.0,
+            0.5, -0.5, 0.0,
+            0.0, 0.5, 0.0};
+
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertex), vertex, GL_STATIC_DRAW);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
+
+        glGenBuffers(1, &mEbo);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mEbo);
+        unsigned int indices[] = {
+            0, 1, 2};
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
     }
 
     Application::~Application() {}
@@ -51,6 +72,10 @@ namespace Hazel
         {
             glClearColor(1, 0, 1, 1);
             glClear(GL_COLOR_BUFFER_BIT);
+
+            glBindVertexArray(mVao);
+            glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+
             for (Layer *layer : mLayerStack)
                 layer->onUpdate();
 

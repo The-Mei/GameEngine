@@ -33,6 +33,8 @@ namespace Hazel
         bool mRunning;
         LayerStack mLayerStack;
 
+        unsigned int mVao, mVbo, mEbo;
+
         static Application *gInstance;
     };
 
