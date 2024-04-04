@@ -3,7 +3,7 @@
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
 #include "Gl/Gl.h"
-
+#include "OpenGlContext.h"
 namespace Hazel
 {
     static bool gGLFWInitialized = false;
@@ -45,9 +45,10 @@ namespace Hazel
         }
 
         mWindow = glfwCreateWindow((int)props.width, (int)props.height, props.title.c_str(), nullptr, nullptr);
-        glfwMakeContextCurrent(mWindow);
-        int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-        HZ_CORE_ASSERT(status, "Failed tp init Glad");
+
+        mContext = new OpenGlContext(mWindow);
+        mContext->init();
+
         glfwSetWindowUserPointer(mWindow, &mData);
         setVSync(true);
 
@@ -137,7 +138,7 @@ namespace Hazel
     void WindowsWindow::onUpdate()
     {
         glfwPollEvents();
-        glfwSwapBuffers(mWindow);
+        mContext->swapBuffers();
     }
 
     void WindowsWindow::setVSync(bool enabled)

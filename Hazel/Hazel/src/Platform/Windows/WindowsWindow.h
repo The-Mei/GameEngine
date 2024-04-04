@@ -2,6 +2,8 @@
 
 #include "Window.h"
 
+#include "Renderer/GraphicsContext.h"
+
 struct GLFWwindow;
 
 namespace Hazel
@@ -29,6 +31,7 @@ namespace Hazel
 
     private:
         GLFWwindow *mWindow;
+        GraphicsContext *mContext;
 
         struct WindowData
         {
