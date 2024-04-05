@@ -4,6 +4,8 @@
 
 #include "Events/ApplicationEvent.h"
 #include "Input.h"
+
+#include "OpenGlBuffer.h"
 namespace Hazel
 {
     Application *Application::gInstance = nullptr;
@@ -20,23 +22,21 @@ namespace Hazel
         glGenVertexArrays(1, &mVao);
         glBindVertexArray(mVao);
 
-        glGenBuffers(1, &mVbo);
-        glBindBuffer(GL_ARRAY_BUFFER, mVbo);
-
         float vertex[] = {
             -0.5, -0.5, 0.0,
             0.5, -0.5, 0.0,
             0.0, 0.5, 0.0};
 
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertex), vertex, GL_STATIC_DRAW);
+        mVertexBuffer.reset(VertexBuffer::create(vertex, sizeof(vertex)));
+        mVertexBuffer->bind();
+
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
 
-        glGenBuffers(1, &mEbo);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mEbo);
-        unsigned int indices[] = {
+        uint32_t indices[] = {
             0, 1, 2};
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+        mIndexBuffer.reset(IndexBuffer::create(indices, sizeof(indices) / sizeof(indices[0])));
+        mIndexBuffer->bind();
 
         std::string vertexSrc = R"(
             #version 330 core
@@ -95,7 +95,7 @@ namespace Hazel
 
             mShader->bind();
             glBindVertexArray(mVao);
-            glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_TRIANGLES, mIndexBuffer->getCount(), GL_UNSIGNED_INT, 0);
 
             for (Layer *layer : mLayerStack)
                 layer->onUpdate();
