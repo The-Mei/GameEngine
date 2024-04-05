@@ -5,6 +5,7 @@
 #include "Window.h"
 #include "Layer/LayerStack.h"
 #include "ImGui/ImGuiLayer.h"
+#include "Renderer/Shader.h"
 
 namespace Hazel
 {
@@ -34,6 +35,7 @@ namespace Hazel
         LayerStack mLayerStack;
 
         unsigned int mVao, mVbo, mEbo;
+        std::unique_ptr<Shader> mShader;
 
         static Application *gInstance;
     };
