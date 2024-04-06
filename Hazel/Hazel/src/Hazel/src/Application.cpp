@@ -1,11 +1,11 @@
 #include "Application.h"
 
-#include "Gl/Gl.h"
-
 #include "Events/ApplicationEvent.h"
 #include "Input.h"
 
 #include "OpenGlBuffer.h"
+
+#include "Renderer/Renderer.h"
 namespace Hazel
 {
     Application *Application::gInstance = nullptr;
@@ -148,16 +148,18 @@ namespace Hazel
     {
         while (mRunning)
         {
-            glClearColor(0.1f, 0.1f, 0.1f, 1);
-            glClear(GL_COLOR_BUFFER_BIT);
+            RenderCommand::setClearColor({0.1f, 0.1f, 0.1f, 1.0f});
+            RenderCommand::clear();
+
+            Renderer::beginScene();
 
             mShader->bind();
-            mVertexArray->bind();
-            glDrawElements(GL_TRIANGLES, mVertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, 0);
+            Renderer::submit(mVertexArray);
 
             mBlueShader->bind();
-            mSquareVA->bind();
-            glDrawElements(GL_TRIANGLES, mSquareVA->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, 0);
+            Renderer::submit(mSquareVA);
+
+            Renderer::endScene();
 
             for (Layer *layer : mLayerStack)
                 layer->onUpdate();

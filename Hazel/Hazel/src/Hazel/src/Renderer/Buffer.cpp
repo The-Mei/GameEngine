@@ -12,10 +12,10 @@ namespace Hazel
     {
         switch (Renderer::getAPI())
         {
-        case RendererAPI::kNone:
+        case RendererAPI::API::kNone:
             HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
             return nullptr;
-        case RendererAPI::kOpenGl:
+        case RendererAPI::API::kOpenGl:
             return new OpenGlVertexBuffer(vertices, size);
         }
         HZ_CORE_ASSERT(false, "Unknow RendererAPI!");
@@ -26,10 +26,10 @@ namespace Hazel
     {
         switch (Renderer::getAPI())
         {
-        case RendererAPI::kNone:
+        case RendererAPI::API::kNone:
             HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
             return nullptr;
-        case RendererAPI::kOpenGl:
+        case RendererAPI::API::kOpenGl:
             return new OpenGlIndexBuffer(indices, size);
         }
         HZ_CORE_ASSERT(false, "Unknow RendererAPI!");
