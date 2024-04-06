@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.17)
 
-add_definitions(-DHZ_BUILD_DLL -DGLFW_BUILD_WIN32 -DGLM_BUILD_LIBRARY)
+add_definitions(-DHZ_BUILD_DLL -DGLFW_BUILD_WIN32 -DGLM_BUILD_LIBRARY -DVERSION_DEBUG)
 
 project(Hazel)
 
