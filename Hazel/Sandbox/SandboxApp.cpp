@@ -103,23 +103,24 @@ public:
         mBlueShader.reset(new Hazel::Shader(bluevertexSrc, bluefragSrc));
     }
 
-    void onUpdate() override
+    void onUpdate(Hazel::Timestep ts) override
     {
+        // LOGCT("Delta time: {0}s ({1}ms)", ts.getSeconds(), ts.getMilliseconds());
 
         if (Hazel::Input::isKeyPressed(HZ_KEY_LEFT))
-            mCameraPosition.x -= mCameraMoveSpeed;
+            mCameraPosition.x -= mCameraMoveSpeed * ts;
         else if (Hazel::Input::isKeyPressed(HZ_KEY_RIGHT))
-            mCameraPosition.x += mCameraMoveSpeed;
+            mCameraPosition.x += mCameraMoveSpeed * ts;
 
         if (Hazel::Input::isKeyPressed(HZ_KEY_DOWN))
-            mCameraPosition.y -= mCameraMoveSpeed;
+            mCameraPosition.y -= mCameraMoveSpeed * ts;
         else if (Hazel::Input::isKeyPressed(HZ_KEY_UP))
-            mCameraPosition.y += mCameraMoveSpeed;
+            mCameraPosition.y += mCameraMoveSpeed * ts;
 
         if (Hazel::Input::isKeyPressed(HZ_KEY_A))
-            mCameraRotation += mCameraRotationSpeed;
+            mCameraRotation += mCameraRotationSpeed * ts;
         else if (Hazel::Input::isKeyPressed(HZ_KEY_D))
-            mCameraRotation -= mCameraRotationSpeed;
+            mCameraRotation -= mCameraRotationSpeed * ts;
 
         Hazel::RenderCommand::setClearColor({0.1f, 0.1f, 0.1f, 1.0f});
         Hazel::RenderCommand::clear();
@@ -148,10 +149,10 @@ private:
 
     Hazel::OrthographicCamera mCamera;
     glm::vec3 mCameraPosition;
-    float mCameraMoveSpeed = 0.1f;
+    float mCameraMoveSpeed = 4.0f;
 
     float mCameraRotation = 0.0f;
-    float mCameraRotationSpeed = 2.1f;
+    float mCameraRotationSpeed = 180.0f;
 };
 
 class Sandbox : public Hazel::Application

@@ -5,6 +5,8 @@
 #include "Layer/LayerStack.h"
 #include "Log.h"
 
+#include "Core/Timestep.h"
+
 #include "Input.h"
 #include "MouseButtonCodes.h"
 #include "KeyCodes.h"

@@ -3,6 +3,8 @@
 #include "Events/ApplicationEvent.h"
 #include "Input.h"
 
+#include "glfw/glfw3.h"
+
 namespace Hazel
 {
     Application *Application::gInstance = nullptr;
@@ -48,8 +50,12 @@ namespace Hazel
     {
         while (mRunning)
         {
+            float time = (float)glfwGetTime();
+            Timestep timestep = time - mLastFrameTime;
+            mLastFrameTime = time;
+
             for (Layer *layer : mLayerStack)
-                layer->onUpdate();
+                layer->onUpdate(timestep);
 
             mImGuiLayer->begin();
             for (Layer *layer : mLayerStack)

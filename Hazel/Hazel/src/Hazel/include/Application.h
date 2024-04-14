@@ -32,6 +32,7 @@ namespace Hazel
         ImGuiLayer *mImGuiLayer;
         bool mRunning;
         LayerStack mLayerStack;
+        float mLastFrameTime = 0.0f;
 
         static Application *gInstance;
     };
