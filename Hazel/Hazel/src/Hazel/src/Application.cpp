@@ -10,7 +10,7 @@ namespace Hazel
 {
     Application *Application::gInstance = nullptr;
 
-    Application::Application() : mRunning(false)
+    Application::Application() : mRunning(false), mCamera(-1.0, 1.0, -1.0, 1.0)
     {
         gInstance = this;
         mWindow = std::unique_ptr<Window>(Window::create());
@@ -48,11 +48,11 @@ namespace Hazel
             #version 330 core
             layout(location = 0) in vec3 aPos;
             layout(location = 1) in vec4 aColor;
-
+            uniform mat4 u_ViewProject;
             out vec4 vColor;
             void main()
             {
-                gl_Position = vec4(aPos, 1.0);
+                gl_Position = u_ViewProject * vec4(aPos, 1.0);
                 vColor = aColor;
             }
         )";
@@ -98,10 +98,10 @@ namespace Hazel
         std::string bluevertexSrc = R"(
             #version 330 core
             layout(location = 0) in vec3 aPos;
-
+            uniform mat4 u_ViewProject;
             void main()
             {
-                gl_Position = vec4(aPos * 0.5 + 0.5, 1.0);
+                gl_Position = u_ViewProject * vec4(aPos , 1.0);
             }
         )";
 
@@ -151,13 +151,14 @@ namespace Hazel
             RenderCommand::setClearColor({0.1f, 0.1f, 0.1f, 1.0f});
             RenderCommand::clear();
 
-            Renderer::beginScene();
+            mCamera.setPosition({0.5, 0.5, 0.0});
+            mCamera.setRotation(90.0f);
 
-            mShader->bind();
-            Renderer::submit(mVertexArray);
+            Renderer::beginScene(mCamera);
 
-            mBlueShader->bind();
-            Renderer::submit(mSquareVA);
+            // Renderer::submit(mShader, mVertexArray);
+
+            Renderer::submit(mBlueShader, mSquareVA);
 
             Renderer::endScene();
 
