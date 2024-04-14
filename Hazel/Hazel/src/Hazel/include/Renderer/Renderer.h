@@ -6,7 +6,7 @@
 #include "Renderer/Shader.h"
 namespace Hazel
 {
-    class Renderer
+    class HAZEL_API Renderer
     {
     public:
         static void beginScene(OrthographicCamera &camera);

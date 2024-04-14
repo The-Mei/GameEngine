@@ -95,7 +95,7 @@ namespace Hazel
         }
     };
 
-    class BufferLayout
+    class HAZEL_API BufferLayout
     {
     public:
         BufferLayout() {}
@@ -133,7 +133,7 @@ namespace Hazel
         uint32_t mStride = 0;
     };
 
-    class VertexBuffer
+    class HAZEL_API VertexBuffer
     {
     public:
         virtual ~VertexBuffer() {}
@@ -147,7 +147,7 @@ namespace Hazel
         static VertexBuffer *create(float *vertices, uint32_t size);
     };
 
-    class IndexBuffer
+    class HAZEL_API IndexBuffer
     {
     public:
         virtual ~IndexBuffer() {}
