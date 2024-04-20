@@ -12,7 +12,7 @@ namespace Hazel
         static void beginScene(OrthographicCamera &camera);
         static void endScene();
 
-        static void submit(const std::shared_ptr<Shader> &shader, const std::shared_ptr<VertexArray> &vertexArray, glm::mat4 modelMatrix = glm::mat4(1.0f));
+        static void submit(const Ref<Shader> &shader, const Ref<VertexArray> &vertexArray, glm::mat4 modelMatrix = glm::mat4(1.0f));
 
         inline static RendererAPI::API getAPI() { return RendererAPI::getAPI(); }
 

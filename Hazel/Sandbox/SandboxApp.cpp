@@ -16,7 +16,7 @@ public:
             0.5, -0.5, 0.0, 1.0f, 0.0f, 0.5f, 1.0f,
             0.0, 0.5, 0.0, 1.0f, 0.0f, 0.5f, 1.0f};
 
-        std::shared_ptr<Hazel::VertexBuffer> vertexBuffer;
+        Hazel::Ref<Hazel::VertexBuffer> vertexBuffer;
         vertexBuffer.reset(Hazel::VertexBuffer::create(vertex, sizeof(vertex)));
 
         Hazel::BufferLayout layout = {
@@ -29,7 +29,7 @@ public:
 
         uint32_t indices[] = {
             0, 1, 2};
-        std::shared_ptr<Hazel::IndexBuffer> indexBuffer;
+        Hazel::Ref<Hazel::IndexBuffer> indexBuffer;
         indexBuffer.reset(Hazel::IndexBuffer::create(indices, sizeof(indices) / sizeof(indices[0])));
 
         mVertexArray->setIndexBuffer(indexBuffer);
@@ -68,7 +68,7 @@ public:
             0.5, 0.5, 0.0,
             -0.5, 0.5, 0.0};
 
-        std::shared_ptr<Hazel::VertexBuffer> squareVB;
+        Hazel::Ref<Hazel::VertexBuffer> squareVB;
         squareVB.reset(Hazel::VertexBuffer::create(bluevertex, sizeof(bluevertex)));
 
         Hazel::BufferLayout bluelayout = {
@@ -81,7 +81,7 @@ public:
         uint32_t blueindices[] = {
             0, 1, 2,
             2, 3, 0};
-        std::shared_ptr<Hazel::IndexBuffer> squareIB;
+        Hazel::Ref<Hazel::IndexBuffer> squareIB;
         squareIB.reset(Hazel::IndexBuffer::create(blueindices, sizeof(blueindices) / sizeof(blueindices[0])));
 
         mSquareVA->setIndexBuffer(squareIB);
@@ -167,7 +167,6 @@ public:
 
     virtual void onImGuiRender() override
     {
-        LOGCT("777777777777777");
         ImGui::Begin("Settings");
         ImGui::ColorEdit3("Square Color", glm::value_ptr(mSquareColor));
         ImGui::End();
@@ -178,11 +177,11 @@ public:
     }
 
 private:
-    std::shared_ptr<Hazel::Shader> mShader;
-    std::shared_ptr<Hazel::VertexArray> mVertexArray;
+    Hazel::Ref<Hazel::Shader> mShader;
+    Hazel::Ref<Hazel::VertexArray> mVertexArray;
 
-    std::shared_ptr<Hazel::Shader> mBlueShader;
-    std::shared_ptr<Hazel::VertexArray> mSquareVA;
+    Hazel::Ref<Hazel::Shader> mBlueShader;
+    Hazel::Ref<Hazel::VertexArray> mSquareVA;
 
     Hazel::OrthographicCamera mCamera;
     glm::vec3 mCameraPosition;
@@ -202,7 +201,7 @@ public:
     {
         pushLayer(new ExampleLayer());
     }
-    
+
     ~Sandbox() {}
 };
 

@@ -16,7 +16,7 @@ namespace Hazel
     {
     }
 
-    void Renderer::submit(const std::shared_ptr<Shader> &shader, const std::shared_ptr<VertexArray> &vertexArray, glm::mat4 modelMatrix)
+    void Renderer::submit(const Ref<Shader> &shader, const Ref<VertexArray> &vertexArray, glm::mat4 modelMatrix)
     {
         std::dynamic_pointer_cast<OpenGlShader>(shader)->bind();
         std::dynamic_pointer_cast<OpenGlShader>(shader)->setUniformMatrix4fv("u_ViewProject", mSceneData->viewProjectMatrix);
