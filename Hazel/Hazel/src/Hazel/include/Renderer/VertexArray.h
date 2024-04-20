@@ -7,7 +7,7 @@ namespace Hazel
     class HAZEL_API VertexArray
     {
     public:
-        virtual ~VertexArray() {}
+        virtual ~VertexArray() = default;
 
         virtual void bind() const = 0;
         virtual void unBind() const = 0;

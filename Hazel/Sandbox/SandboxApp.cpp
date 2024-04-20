@@ -1,9 +1,13 @@
 #include "Hazel.h"
 
+#include "gtc/matrix_transform.hpp"
+#include "gtc/type_ptr.hpp"
+#include "imgui.h"
+#include "OpenGlShader.h"
 class ExampleLayer : public Hazel::Layer
 {
 public:
-    ExampleLayer() : Layer("Example"), mCamera(-1.0, 1.0, -1.0, 1.0), mCameraPosition(0)
+    ExampleLayer() : Layer("Example"), mCamera(-1.0, 1.0, -1.0, 1.0), mCameraPosition(0), mSquarePosition(0)
     {
         mVertexArray.reset(Hazel::VertexArray::create());
 
@@ -35,10 +39,11 @@ public:
             layout(location = 0) in vec3 aPos;
             layout(location = 1) in vec4 aColor;
             uniform mat4 u_ViewProject;
+            uniform mat4 u_Model;
             out vec4 vColor;
             void main()
             {
-                gl_Position = u_ViewProject * vec4(aPos, 1.0);
+                gl_Position = u_ViewProject * u_Model * vec4(aPos, 1.0);
                 vColor = aColor;
             }
         )";
@@ -53,7 +58,7 @@ public:
             }
         )";
 
-        mShader.reset(new Hazel::Shader(vertexSrc, fragSrc));
+        mShader.reset(Hazel::Shader::create(vertexSrc, fragSrc));
 
         mSquareVA.reset(Hazel::VertexArray::create());
 
@@ -85,22 +90,24 @@ public:
             #version 330 core
             layout(location = 0) in vec3 aPos;
             uniform mat4 u_ViewProject;
+            uniform mat4 u_Model;
             void main()
             {
-                gl_Position = u_ViewProject * vec4(aPos , 1.0);
+                gl_Position = u_ViewProject * u_Model * vec4(aPos , 1.0);
             }
         )";
 
         std::string bluefragSrc = R"(
             #version 330 core
+            uniform vec3 u_color;
             out vec4 color;
             void main()
             {
-                color = vec4(0.2, 0.3, 0.2, 1.0);
+                color = vec4(u_color, 1.0);
             }
         )";
 
-        mBlueShader.reset(new Hazel::Shader(bluevertexSrc, bluefragSrc));
+        mBlueShader.reset(Hazel::Shader::create(bluevertexSrc, bluefragSrc));
     }
 
     void onUpdate(Hazel::Timestep ts) override
@@ -122,6 +129,16 @@ public:
         else if (Hazel::Input::isKeyPressed(HZ_KEY_D))
             mCameraRotation -= mCameraRotationSpeed * ts;
 
+        if (Hazel::Input::isKeyPressed(HZ_KEY_J))
+            mSquarePosition.x -= mCameraMoveSpeed * ts;
+        else if (Hazel::Input::isKeyPressed(HZ_KEY_L))
+            mSquarePosition.x += mCameraMoveSpeed * ts;
+
+        if (Hazel::Input::isKeyPressed(HZ_KEY_I))
+            mSquarePosition.y += mCameraMoveSpeed * ts;
+        else if (Hazel::Input::isKeyPressed(HZ_KEY_K))
+            mSquarePosition.y -= mCameraMoveSpeed * ts;
+
         Hazel::RenderCommand::setClearColor({0.1f, 0.1f, 0.1f, 1.0f});
         Hazel::RenderCommand::clear();
 
@@ -130,10 +147,30 @@ public:
 
         Hazel::Renderer::beginScene(mCamera);
 
-        Hazel::Renderer::submit(mBlueShader, mSquareVA);
+        glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+
+        std::dynamic_pointer_cast<Hazel::OpenGlShader>(mBlueShader)->bind();
+        std::dynamic_pointer_cast<Hazel::OpenGlShader>(mBlueShader)->setUniform3f("u_color", mSquareColor);
+        for (int y = 0; y < 20; y++)
+        {
+            for (int x = 0; x < 20; x++)
+            {
+                glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(x * 0.11f, y * 0.11f, 0.0f)) * scale;
+                Hazel::Renderer::submit(mBlueShader, mSquareVA, transform);
+            }
+        }
+
         Hazel::Renderer::submit(mShader, mVertexArray);
 
         Hazel::Renderer::endScene();
+    }
+
+    virtual void onImGuiRender() override
+    {
+        LOGCT("777777777777777");
+        ImGui::Begin("Settings");
+        ImGui::ColorEdit3("Square Color", glm::value_ptr(mSquareColor));
+        ImGui::End();
     }
 
     void onEvent(Hazel::Event &event) override
@@ -153,6 +190,9 @@ private:
 
     float mCameraRotation = 0.0f;
     float mCameraRotationSpeed = 180.0f;
+
+    glm::vec3 mSquarePosition;
+    glm::vec3 mSquareColor = {0.0f, 0.0f, 0.0f};
 };
 
 class Sandbox : public Hazel::Application
@@ -162,7 +202,7 @@ public:
     {
         pushLayer(new ExampleLayer());
     }
-
+    
     ~Sandbox() {}
 };
 

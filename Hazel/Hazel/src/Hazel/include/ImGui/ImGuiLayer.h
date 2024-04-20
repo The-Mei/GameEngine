@@ -2,10 +2,6 @@
 
 #include "Layer/Layer.h"
 
-#include "Events/KeyEvent.h"
-#include "Events/MouseEvent.h"
-#include "Events/ApplicationEvent.h"
-
 namespace Hazel
 {
     class HAZEL_API ImGuiLayer : public Layer
