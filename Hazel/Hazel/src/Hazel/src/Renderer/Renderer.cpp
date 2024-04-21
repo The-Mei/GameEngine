@@ -7,6 +7,11 @@ namespace Hazel
 {
     Renderer::SceneData *Renderer::mSceneData = new Renderer::SceneData;
 
+    void Renderer::init()
+    {
+        RenderCommand::init();
+    }
+
     void Renderer::beginScene(OrthographicCamera &camera)
     {
         mSceneData->viewProjectMatrix = camera.getViewProjectMatrix();

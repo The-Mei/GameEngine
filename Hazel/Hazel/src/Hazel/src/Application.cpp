@@ -5,6 +5,8 @@
 
 #include "glfw/glfw3.h"
 
+#include "Renderer/Renderer.h"
+
 namespace Hazel
 {
     Application *Application::gInstance = nullptr;
@@ -14,6 +16,9 @@ namespace Hazel
         gInstance = this;
         mWindow = std::unique_ptr<Window>(Window::create());
         mWindow->setEventCallback(HZ_BIND_EVENT_FN(onEvent));
+
+        Renderer::init();
+
         mImGuiLayer = new ImGuiLayer();
         pushOverlay(mImGuiLayer);
         mRunning = true;

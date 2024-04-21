@@ -138,6 +138,8 @@ public:
         mTextureShader.reset(Hazel::Shader::create(texturevertexSrc, texturefragSrc));
         mTexture2D = Hazel::Texture2D::create(std::string(RESROOT) + "/assets/textures/Checkerboard.png");
 
+        mChernoLogo = Hazel::Texture2D::create(std::string(RESROOT) + "/assets/textures/ChernoLogo.png");
+
         std::dynamic_pointer_cast<Hazel::OpenGlShader>(mTextureShader)->bind();
         std::dynamic_pointer_cast<Hazel::OpenGlShader>(mTextureShader)->setUniform1i("sampler", 0);
     }
@@ -193,6 +195,9 @@ public:
         }
         mTexture2D->bind();
         Hazel::Renderer::submit(mTextureShader, mSquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+
+        mChernoLogo->bind();
+        Hazel::Renderer::submit(mTextureShader, mSquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
         // Hazel::Renderer::submit(mShader, mVertexArray);
 
         Hazel::Renderer::endScene();
@@ -216,7 +221,7 @@ private:
     Hazel::Ref<Hazel::Shader> mflatColorShader, mTextureShader;
     Hazel::Ref<Hazel::VertexArray> mSquareVA;
 
-    Hazel::Ref<Hazel::Texture2D> mTexture2D;
+    Hazel::Ref<Hazel::Texture2D> mTexture2D, mChernoLogo;
 
     Hazel::OrthographicCamera mCamera;
     glm::vec3 mCameraPosition;

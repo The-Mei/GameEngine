@@ -9,6 +9,7 @@ namespace Hazel
     class HAZEL_API Renderer
     {
     public:
+        static void init();
         static void beginScene(OrthographicCamera &camera);
         static void endScene();
 
