@@ -4,8 +4,8 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/Build/bin)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/Build/bin)
 
 add_definitions(-DHZ_PLATFROM_WINDOWS)
-
-set(CMAKE_CXX_FLAGS "-g -Wall")
+set(CMAKE_CXX_STANDARD 17)
+#set(CMAKE_CXX_FLAGS "-g -Wall")
 
 project(Demo)
 
