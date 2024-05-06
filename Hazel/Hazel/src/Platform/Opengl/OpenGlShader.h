@@ -12,7 +12,8 @@ namespace Hazel
     class HAZEL_API OpenGlShader : public Shader
     {
     public:
-        OpenGlShader(const std::string vertexPath, const std::string fragmentPath);
+        OpenGlShader(const std::string &filepath);
+        OpenGlShader(const std::string &vertexSrc, const std::string &fragmentSrc);
         virtual ~OpenGlShader();
         void bind();
         void unBind();
@@ -27,7 +28,9 @@ namespace Hazel
         void setUniformMatrix4fv(const std::string &name, const glm::mat4 &value);
 
     private:
-        std::string readShaderSource(const std::string &filepath);
+        std::string readFile(const std::string &filepath);
+        std::unordered_map<unsigned int, std::string> preProcess(const std::string &source);
+        void compile(const std::unordered_map<unsigned int, std::string> &shaderSources);
         unsigned int compileShader(unsigned int type, const std::string &source);
         unsigned int createShaderProgram(const std::string &vertexSource, const std::string &fragmentSource);
         unsigned int getUniformId(const std::string name);

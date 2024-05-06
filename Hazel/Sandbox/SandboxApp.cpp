@@ -110,32 +110,7 @@ public:
 
         mflatColorShader.reset(Hazel::Shader::create(flatColorvertexSrc, flatColorfragSrc));
 
-        std::string texturevertexSrc = R"(
-            #version 330 core
-            layout(location = 0) in vec3 aPos;
-            layout(location = 1) in vec2 aTexCoord;
-            uniform mat4 u_ViewProject;
-            uniform mat4 u_Model;
-            out vec2 u_TexCoord;
-            void main()
-            {
-                gl_Position = u_ViewProject * u_Model * vec4(aPos , 1.0);
-                u_TexCoord = aTexCoord;
-            }
-        )";
-
-        std::string texturefragSrc = R"(
-            #version 330 core
-            in vec2 u_TexCoord;
-            uniform sampler2D sampler;
-            out vec4 color;
-            void main()
-            {
-                color = texture(sampler, u_TexCoord);
-            }
-        )";
-
-        mTextureShader.reset(Hazel::Shader::create(texturevertexSrc, texturefragSrc));
+        mTextureShader.reset(Hazel::Shader::create(std::string(RESROOT) + "/assets/shader/Texture.glsl"));
         mTexture2D = Hazel::Texture2D::create(std::string(RESROOT) + "/assets/textures/Checkerboard.png");
 
         mChernoLogo = Hazel::Texture2D::create(std::string(RESROOT) + "/assets/textures/ChernoLogo.png");
