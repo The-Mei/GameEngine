@@ -13,10 +13,11 @@ namespace Hazel
     {
     public:
         OpenGlShader(const std::string &filepath);
-        OpenGlShader(const std::string &vertexSrc, const std::string &fragmentSrc);
+        OpenGlShader(const std::string &name, const std::string &vertexSrc, const std::string &fragmentSrc);
         virtual ~OpenGlShader();
-        void bind();
-        void unBind();
+        virtual void bind() override;
+        virtual void unBind() override;
+        virtual const std::string &getName() const override { return mName; }
         unsigned int getProgramId() { return mProgramId; }
 
         void setUniform1i(const std::string &name, int value);
@@ -37,6 +38,7 @@ namespace Hazel
 
     private:
         unsigned int mProgramId;
+        std::string mName;
         std::unordered_map<std::string, unsigned int> mUniform;
     };
 }
