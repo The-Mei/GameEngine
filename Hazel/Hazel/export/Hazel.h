@@ -11,6 +11,8 @@
 #include "MouseButtonCodes.h"
 #include "KeyCodes.h"
 
+#include "Renderer/OrthographicCameraController.h"
+
 #include "ImGui/ImGuiLayer.h"
 
 #include "Renderer/Renderer.h"
