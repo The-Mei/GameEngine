@@ -22,6 +22,3 @@
 #include "Renderer/Shader.h"
 #include "Renderer/Texture.h"
 #include "Renderer/VertexArray.h"
-
-//---Entry Point----------------
-#include "Core/EntryPoint.h"

@@ -4,12 +4,17 @@
 #include "gtc/type_ptr.hpp"
 #include "imgui.h"
 #include "OpenGlShader.h"
+
+#include "Sandbox2D.h"
+
+#include "Core/EntryPoint.h"
+
 class ExampleLayer : public Hazel::Layer
 {
 public:
     ExampleLayer() : Layer("Example"), mCameraController(1280.0f / 720.0f)
     {
-        mVertexArray.reset(Hazel::VertexArray::create());
+        mVertexArray = Hazel::VertexArray::create();
 
         float vertex[] = {
             -0.5, -0.5, 0.0, 1.0f, 0.0f, 0.5f, 1.0f,
@@ -60,7 +65,7 @@ public:
 
         mShader = Hazel::Shader::create("vertexPosition", vertexSrc, fragSrc);
 
-        mSquareVA.reset(Hazel::VertexArray::create());
+        mSquareVA = Hazel::VertexArray::create();
 
         float squareVertices[] = {
             -0.5, -0.5, 0.0, 0.0f, 0.0f,
@@ -184,7 +189,8 @@ class Sandbox : public Hazel::Application
 public:
     Sandbox()
     {
-        pushLayer(new ExampleLayer());
+        // pushLayer(new ExampleLayer());
+        pushLayer(new Sandbox2D());
     }
 
     ~Sandbox() {}
