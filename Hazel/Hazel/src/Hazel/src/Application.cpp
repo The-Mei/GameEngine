@@ -11,7 +11,7 @@ namespace Hazel
 {
     Application *Application::gInstance = nullptr;
 
-    Application::Application() : mRunning(false)
+    Application::Application() : mRunning(false), mMinimized(false)
     {
         gInstance = this;
         mWindow = std::unique_ptr<Window>(Window::create());
@@ -30,6 +30,7 @@ namespace Hazel
     {
         EventDispatcher dispatcher(e);
         dispatcher.dispatch<WindowCloseEvent>(HZ_BIND_EVENT_FN(onWindowClose));
+        dispatcher.dispatch<WindowResizeEvent>(HZ_BIND_EVENT_FN(onWindowResize));
 
         for (auto it = mLayerStack.end(); it != mLayerStack.begin();)
         {
@@ -59,8 +60,11 @@ namespace Hazel
             Timestep timestep = time - mLastFrameTime;
             mLastFrameTime = time;
 
-            for (Layer *layer : mLayerStack)
-                layer->onUpdate(timestep);
+            if (!mMinimized)
+            {
+                for (Layer *layer : mLayerStack)
+                    layer->onUpdate(timestep);
+            }
 
             mImGuiLayer->begin();
             for (Layer *layer : mLayerStack)
@@ -70,9 +74,21 @@ namespace Hazel
         }
     }
 
-    bool Application::onWindowClose(class WindowCloseEvent &e)
+    bool Application::onWindowClose(WindowCloseEvent &e)
     {
         mRunning = false;
         return true;
+    }
+
+    bool Application::onWindowResize(WindowResizeEvent &e)
+    {
+        if (e.getWidth() == 0 || e.getHeight() == 0)
+        {
+            mMinimized = true;
+            return false;
+        }
+        mMinimized = false;
+        Renderer::onWindowResize(e.getWidth(), e.getHeight());
+        return false;
     }
 }

@@ -26,11 +26,13 @@ namespace Hazel
 
     private:
         bool onWindowClose(class WindowCloseEvent &e);
+        bool onWindowResize(class WindowResizeEvent &e);
 
     private:
         std::unique_ptr<Window> mWindow;
         ImGuiLayer *mImGuiLayer;
         bool mRunning;
+        bool mMinimized;
         LayerStack mLayerStack;
         float mLastFrameTime = 0.0f;
 
