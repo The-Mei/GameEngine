@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Core.h"
+#include "Core/Core.h"
 
-#include "Window.h"
+#include "Core/Window.h"
 #include "Layer/LayerStack.h"
 #include "ImGui/ImGuiLayer.h"
 

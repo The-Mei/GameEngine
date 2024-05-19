@@ -4,7 +4,7 @@
 
 #include "stb_image.h"
 #include "glad/glad.h"
-#include "Renderer/GlCheckError.h"
+#include "GlCheckError.h"
 
 namespace Hazel
 {

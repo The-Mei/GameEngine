@@ -10,7 +10,8 @@
 
 #include "Application.h"
 
-#include "GL/Gl.h"
+// #include "glad/glad.h"
+#include "glfw/glfw3.h"
 
 namespace Hazel
 {

@@ -2,7 +2,8 @@
 
 #include "OpenGlContext.h"
 
-#include "GL/Gl.h"
+#include "glad/glad.h"
+#include "glfw/glfw3.h"
 #include "GL/gl.h"
 
 namespace Hazel

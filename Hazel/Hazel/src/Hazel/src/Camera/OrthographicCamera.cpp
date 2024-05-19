@@ -1,6 +1,6 @@
 #include "Hzpch.h"
 
-#include "Renderer/OrthographicCamera.h"
+#include "Camera/OrthographicCamera.h"
 
 #include "gtc/matrix_transform.hpp"
 

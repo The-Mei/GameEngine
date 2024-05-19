@@ -1,9 +1,9 @@
 #include "Hzpch.h"
 
-#include "Renderer/OrthographicCameraController.h"
+#include "Camera/OrthographicCameraController.h"
 
-#include "Input.h"
-#include "KeyCodes.h"
+#include "Core/Input.h"
+#include "Core/KeyCodes.h"
 
 namespace Hazel
 {
@@ -22,9 +22,9 @@ namespace Hazel
             mCameraPosition.x += mCameraTranslateSpeed * ts;
 
         if (Input::isKeyPressed(HZ_KEY_W))
-            mCameraPosition.y -= mCameraTranslateSpeed * ts;
-        else if (Input::isKeyPressed(HZ_KEY_S))
             mCameraPosition.y += mCameraTranslateSpeed * ts;
+        else if (Input::isKeyPressed(HZ_KEY_S))
+            mCameraPosition.y -= mCameraTranslateSpeed * ts;
 
         if (mRotation)
         {

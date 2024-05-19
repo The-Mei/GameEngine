@@ -2,7 +2,7 @@
 #include "Events/ApplicationEvent.h"
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
-#include "Gl/Gl.h"
+#include "glfw/glfw3.h"
 #include "OpenGlContext.h"
 namespace Hazel
 {

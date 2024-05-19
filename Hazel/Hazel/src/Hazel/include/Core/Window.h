@@ -1,6 +1,6 @@
 #pragma once
 #include "Hzpch.h"
-#include "Core.h"
+#include "Core/Core.h"
 #include "Events/Event.h"
 
 namespace Hazel

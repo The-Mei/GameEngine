@@ -2,9 +2,9 @@
 
 #include <fstream>
 
-#include "Renderer/GlCheckError.h"
+#include "GlCheckError.h"
 
-#include "Log.h"
+#include "Core/Log.h"
 
 #include "gtc/type_ptr.hpp"
 

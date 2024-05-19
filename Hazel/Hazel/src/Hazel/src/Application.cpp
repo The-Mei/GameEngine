@@ -1,7 +1,7 @@
 #include "Application.h"
 
 #include "Events/ApplicationEvent.h"
-#include "Input.h"
+#include "Core/Input.h"
 
 #include "glfw/glfw3.h"
 

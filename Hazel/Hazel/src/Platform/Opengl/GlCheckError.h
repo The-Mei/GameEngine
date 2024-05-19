@@ -4,7 +4,7 @@
 
 #include "glad/glad.h"
 
-#include "Log.h"
+#include "Core/Log.h"
 
 #ifdef LOG_MODULE_TAG
 #undef LOG_MODULE_TAG

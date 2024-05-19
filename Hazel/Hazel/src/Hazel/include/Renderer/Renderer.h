@@ -2,7 +2,7 @@
 
 #include "Renderer/RenderCommand.h"
 
-#include "Renderer/OrthographicCamera.h"
+#include "Camera/OrthographicCamera.h"
 #include "Renderer/Shader.h"
 namespace Hazel
 {
