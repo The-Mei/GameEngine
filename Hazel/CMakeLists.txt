@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.17)
 
-set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/Build/bin)
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/Build/bin)
+set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build/bin)
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build/bin)
 
 add_definitions(-DHZ_PLATFROM_WINDOWS)
 set(CMAKE_CXX_STANDARD 17)
 #set(CMAKE_CXX_FLAGS "-g -Wall")
-set(CMAKE_CXX_FLAGS "-o3 -w")
+set(CMAKE_CXX_FLAGS "-O3 -w")
 
 project(Demo)
 
