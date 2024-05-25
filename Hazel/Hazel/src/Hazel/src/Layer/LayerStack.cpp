@@ -3,7 +3,7 @@
 
 namespace Hazel
 {
-    LayerStack::LayerStack()
+    LayerStack::LayerStack() : mLayerInsertIndex(0)
     {
     }
 
