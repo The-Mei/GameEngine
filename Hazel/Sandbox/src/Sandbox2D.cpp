@@ -28,7 +28,8 @@ void Sandbox2D::onUpdate(Hazel::Timestep ts)
 
     Hazel::Renderer2D::beginScene(mCameraController.getCamera());
 
-    Hazel::Renderer2D::drawQuad({0.0f, 0.0f}, {1.0f, 1.0f}, {0.8f, 0.2f, 0.3f, 1.0f});
+    Hazel::Renderer2D::drawQuad({-0.5f, 0.0f}, {0.5f, 0.5f}, {0.8f, 0.2f, 0.3f, 1.0f});
+    Hazel::Renderer2D::drawQuad({0.5f, 0.0f}, {0.8f, 0.9f}, {0.3f, 0.2f, 0.8f, 1.0f});
 
     Hazel::Renderer2D::endScene();
 }

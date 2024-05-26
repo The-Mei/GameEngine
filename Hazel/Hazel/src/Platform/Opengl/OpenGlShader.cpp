@@ -59,6 +59,21 @@ namespace Hazel
         GLCHECK(glUseProgram(0));
     }
 
+    void OpenGlShader::setFloat3(const std::string &name, const glm::vec3 &value)
+    {
+        setUniform3f(name, value);
+    }
+
+    void OpenGlShader::setFloat4(const std::string &name, const glm::vec4 &value)
+    {
+        setUniform4f(name, value);
+    }
+
+    void OpenGlShader::setMat4(const std::string &name, const glm::mat4 &value)
+    {
+        setUniformMatrix4fv(name, value);
+    }
+
     void OpenGlShader::setUniform1i(const std::string &name, int value)
     {
         GLCHECK(glUniform1i(getUniformId(name), value));

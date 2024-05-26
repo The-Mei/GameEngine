@@ -4,7 +4,8 @@
 
 #include "Renderer/Shader.h"
 #include "Renderer/VertexArray.h"
-#include "OpenGlShader.h"
+
+#include "gtc/matrix_transform.hpp"
 
 namespace Hazel
 {
@@ -56,9 +57,8 @@ namespace Hazel
 
     void Renderer2D::beginScene(OrthographicCamera &camera)
     {
-        std::dynamic_pointer_cast<OpenGlShader>(sData->flatColorShader)->bind();
-        std::dynamic_pointer_cast<OpenGlShader>(sData->flatColorShader)->setUniformMatrix4fv("u_ViewProject", camera.getViewProjectMatrix());
-        std::dynamic_pointer_cast<OpenGlShader>(sData->flatColorShader)->setUniformMatrix4fv("u_Model", glm::mat4(1.0f));
+        sData->flatColorShader->bind();
+        sData->flatColorShader->setMat4("u_ViewProject", camera.getViewProjectMatrix());
     }
 
     void Renderer2D::endScene()
@@ -73,8 +73,11 @@ namespace Hazel
 
     void Renderer2D::drawQuad(const glm::vec3 &position, const glm::vec2 &size, const glm::vec4 &color)
     {
-        std::dynamic_pointer_cast<OpenGlShader>(sData->flatColorShader)->bind();
-        std::dynamic_pointer_cast<OpenGlShader>(sData->flatColorShader)->setUniform4f("u_color", color);
+        sData->flatColorShader->bind();
+        sData->flatColorShader->setFloat4("u_color", color);
+
+        glm::mat4 transfrom = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
+        sData->flatColorShader->setMat4("u_Model", transfrom);
 
         sData->quadVA->bind();
         RenderCommand::drawIndexed(sData->quadVA);
