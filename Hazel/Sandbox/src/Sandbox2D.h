@@ -19,6 +19,7 @@ private:
 
     Hazel::Ref<Hazel::Shader> mflatColorShader;
     Hazel::Ref<Hazel::VertexArray> mSquareVA;
+    Hazel::Ref<Hazel::Texture2D> mCheckerboardTexture;
 
     glm::vec4 mSquareColor = {0.2f, 0.3f, 0.8f, 1.0f};
 };

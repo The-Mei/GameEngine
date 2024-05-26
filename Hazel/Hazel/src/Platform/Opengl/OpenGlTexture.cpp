@@ -40,6 +40,9 @@ namespace Hazel
         GLCHECK(glTextureParameteri(mRendererId, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
         GLCHECK(glTextureParameteri(mRendererId, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
 
+        GLCHECK(glTextureParameteri(mRendererId, GL_TEXTURE_WRAP_S, GL_REPEAT));
+        GLCHECK(glTextureParameteri(mRendererId, GL_TEXTURE_WRAP_T, GL_REPEAT));
+
         GLCHECK(glTextureSubImage2D(mRendererId, 0, 0, 0, mWidth, mHeight, dataFormat, GL_UNSIGNED_BYTE, data));
 
         stbi_image_free(data);

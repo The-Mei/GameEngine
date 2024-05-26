@@ -13,6 +13,7 @@ namespace Hazel
     {
         Ref<VertexArray> quadVA;
         Ref<Shader> flatColorShader;
+        Ref<Shader> textureShader;
     };
 
     static Renderer2DStorage *sData;
@@ -24,16 +25,17 @@ namespace Hazel
         sData->quadVA = VertexArray::create();
 
         float squareVertices[] = {
-            -0.5, -0.5, 0.0,
-            0.5, -0.5, 0.0,
-            0.5, 0.5, 0.0,
-            -0.5, 0.5, 0.0};
+            -0.5, -0.5, 0.0, 0.0f, 0.0f,
+            0.5, -0.5, 0.0, 1.0f, 0.0f,
+            0.5, 0.5, 0.0, 1.0f, 1.0f,
+            -0.5, 0.5, 0.0, 0.0f, 1.0f};
 
         Ref<VertexBuffer> squareVB;
         squareVB.reset(VertexBuffer::create(squareVertices, sizeof(squareVertices)));
 
         BufferLayout flatColorlayout = {
-            {ShaderDataType::kFloat3, "aPos"}};
+            {ShaderDataType::kFloat3, "aPos"},
+            {ShaderDataType::kFloat2, "aTexCoord"}};
 
         squareVB->setLayout(flatColorlayout);
 
@@ -48,6 +50,9 @@ namespace Hazel
         sData->quadVA->setIndexBuffer(squareIB);
 
         sData->flatColorShader = Shader::create(std::string(RESROOT) + "/assets/shader/FlatColor.glsl");
+        sData->textureShader = Shader::create(std::string(RESROOT) + "/assets/shader/Texture.glsl");
+        sData->textureShader->bind();
+        sData->textureShader->setInt("sampler", 0);
     }
 
     void Renderer2D::shutDown()
@@ -59,6 +64,9 @@ namespace Hazel
     {
         sData->flatColorShader->bind();
         sData->flatColorShader->setMat4("u_ViewProject", camera.getViewProjectMatrix());
+
+        sData->textureShader->bind();
+        sData->textureShader->setMat4("u_ViewProject", camera.getViewProjectMatrix());
     }
 
     void Renderer2D::endScene()
@@ -78,6 +86,24 @@ namespace Hazel
 
         glm::mat4 transfrom = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
         sData->flatColorShader->setMat4("u_Model", transfrom);
+
+        sData->quadVA->bind();
+        RenderCommand::drawIndexed(sData->quadVA);
+    }
+
+    void Renderer2D::drawQuad(const glm::vec2 &position, const glm::vec2 &size, const Ref<Texture2D> &texture)
+    {
+        drawQuad({position.x, position.y, 0.0f}, size, texture);
+    }
+
+    void Renderer2D::drawQuad(const glm::vec3 &position, const glm::vec2 &size, const Ref<Texture2D> &texture)
+    {
+        sData->textureShader->bind();
+
+        glm::mat4 transfrom = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
+        sData->textureShader->setMat4("u_Model", transfrom);
+
+        texture->bind();
 
         sData->quadVA->bind();
         RenderCommand::drawIndexed(sData->quadVA);
