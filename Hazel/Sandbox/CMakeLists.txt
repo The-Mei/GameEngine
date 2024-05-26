@@ -10,8 +10,6 @@ file(GLOB_RECURSE SANDBOX_INCLUDE
 "src/*.h")
 
 
-add_definitions(-DRESROOT="${CMAKE_CURRENT_SOURCE_DIR}")
-
 include_directories(${SANDBOX_INCLUDE})
 
 add_executable(${PROJECT_NAME} ${SANDBOX_SRC})

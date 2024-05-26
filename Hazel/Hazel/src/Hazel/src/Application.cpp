@@ -6,6 +6,7 @@
 #include "glfw/glfw3.h"
 
 #include "Renderer/Renderer.h"
+#include "Renderer/Renderer2D.h"
 
 namespace Hazel
 {
@@ -18,6 +19,7 @@ namespace Hazel
         mWindow->setEventCallback(HZ_BIND_EVENT_FN(onEvent));
 
         Renderer::init();
+        Renderer2D::init();
 
         mImGuiLayer = new ImGuiLayer();
         pushOverlay(mImGuiLayer);
