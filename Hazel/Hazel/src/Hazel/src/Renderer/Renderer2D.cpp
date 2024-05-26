@@ -12,8 +12,8 @@ namespace Hazel
     struct Renderer2DStorage
     {
         Ref<VertexArray> quadVA;
-        Ref<Shader> flatColorShader;
         Ref<Shader> textureShader;
+        Ref<Texture2D> whiteTexture;
     };
 
     static Renderer2DStorage *sData;
@@ -49,8 +49,11 @@ namespace Hazel
 
         sData->quadVA->setIndexBuffer(squareIB);
 
-        sData->flatColorShader = Shader::create(std::string(RESROOT) + "/assets/shader/FlatColor.glsl");
-        sData->textureShader = Shader::create(std::string(RESROOT) + "/assets/shader/Texture.glsl");
+        sData->whiteTexture = Texture2D::create(1, 1);
+        uint32_t whiteData = 0xFFFFFFFF;
+        sData->whiteTexture->setData(&whiteData, sizeof(uint32_t));
+
+        sData->textureShader = Shader::create(std::string(RESROOT) + "/assets/shader/Texture2D.glsl");
         sData->textureShader->bind();
         sData->textureShader->setInt("sampler", 0);
     }
@@ -62,9 +65,6 @@ namespace Hazel
 
     void Renderer2D::beginScene(OrthographicCamera &camera)
     {
-        sData->flatColorShader->bind();
-        sData->flatColorShader->setMat4("u_ViewProject", camera.getViewProjectMatrix());
-
         sData->textureShader->bind();
         sData->textureShader->setMat4("u_ViewProject", camera.getViewProjectMatrix());
     }
@@ -81,14 +81,18 @@ namespace Hazel
 
     void Renderer2D::drawQuad(const glm::vec3 &position, const glm::vec2 &size, const glm::vec4 &color)
     {
-        sData->flatColorShader->bind();
-        sData->flatColorShader->setFloat4("u_color", color);
+        sData->textureShader->bind();
+        sData->textureShader->setFloat4("u_color", color);
 
         glm::mat4 transfrom = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
-        sData->flatColorShader->setMat4("u_Model", transfrom);
+        sData->textureShader->setMat4("u_Model", transfrom);
+
+        sData->whiteTexture->bind();
 
         sData->quadVA->bind();
         RenderCommand::drawIndexed(sData->quadVA);
+
+        sData->whiteTexture->unBind();
     }
 
     void Renderer2D::drawQuad(const glm::vec2 &position, const glm::vec2 &size, const Ref<Texture2D> &texture)
@@ -100,6 +104,8 @@ namespace Hazel
     {
         sData->textureShader->bind();
 
+        sData->textureShader->setFloat4("u_color", glm::vec4(1.0f));
+
         glm::mat4 transfrom = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
         sData->textureShader->setMat4("u_Model", transfrom);
 
@@ -107,5 +113,7 @@ namespace Hazel
 
         sData->quadVA->bind();
         RenderCommand::drawIndexed(sData->quadVA);
+
+        texture->unBind();
     }
 }

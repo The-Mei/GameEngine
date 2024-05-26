@@ -8,6 +8,21 @@
 
 namespace Hazel
 {
+    OpenGlTexture2D::OpenGlTexture2D(uint32_t width, uint32_t height)
+        : mWidth(width), mHeight(height)
+    {
+
+        mInternalformat = GL_RGBA8;
+        mDataFormat = GL_RGBA;
+        GLCHECK(glCreateTextures(GL_TEXTURE_2D, 1, &mRendererId));
+        GLCHECK(glTextureStorage2D(mRendererId, 1, mInternalformat, mWidth, mHeight));
+
+        GLCHECK(glTextureParameteri(mRendererId, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
+        GLCHECK(glTextureParameteri(mRendererId, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
+
+        GLCHECK(glTextureParameteri(mRendererId, GL_TEXTURE_WRAP_S, GL_REPEAT));
+        GLCHECK(glTextureParameteri(mRendererId, GL_TEXTURE_WRAP_T, GL_REPEAT));
+    }
 
     OpenGlTexture2D::OpenGlTexture2D(const std::string &path)
         : mPath(path)
@@ -34,6 +49,9 @@ namespace Hazel
 
         HZ_CORE_ASSERT(internalformat && dataFormat, "Invalid image format!");
 
+        mInternalformat = internalformat;
+        mDataFormat = dataFormat;
+
         GLCHECK(glCreateTextures(GL_TEXTURE_2D, 1, &mRendererId));
         GLCHECK(glTextureStorage2D(mRendererId, 1, internalformat, mWidth, mHeight));
 
@@ -56,5 +74,17 @@ namespace Hazel
     void OpenGlTexture2D::bind(uint32_t slot) const
     {
         GLCHECK(glBindTextureUnit(slot, mRendererId));
+    }
+
+    void OpenGlTexture2D::unBind() const
+    {
+        GLCHECK(glBindTexture(GL_TEXTURE_2D, 0));
+    }
+
+    void OpenGlTexture2D::setData(void *data, uint32_t size)
+    {
+        uint32_t bpp = mDataFormat == GL_RGBA ? 4 : 3;
+        HZ_CORE_ASSERT(size == mWidth * mHeight * bpp, "Data must be entire texture!");
+        GLCHECK(glTextureSubImage2D(mRendererId, 0, 0, 0, mWidth, mHeight, mDataFormat, GL_UNSIGNED_BYTE, data));
     }
 }

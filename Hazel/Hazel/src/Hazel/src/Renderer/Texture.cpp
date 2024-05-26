@@ -8,6 +8,21 @@
 
 namespace Hazel
 {
+
+    Ref<Texture2D> Texture2D::create(uint32_t width, uint32_t height)
+    {
+        switch (Renderer::getAPI())
+        {
+        case RendererAPI::API::kNone:
+            HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
+            return nullptr;
+        case RendererAPI::API::kOpenGl:
+            return createRef<OpenGlTexture2D>(width, height);
+        }
+        HZ_CORE_ASSERT(false, "Unknow RendererAPI!");
+        return nullptr;
+    }
+
     Ref<Texture2D> Texture2D::create(const std::string &path)
     {
         switch (Renderer::getAPI())
