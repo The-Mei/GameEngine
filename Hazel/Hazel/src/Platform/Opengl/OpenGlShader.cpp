@@ -64,6 +64,11 @@ namespace Hazel
         setUniform1i(name, value);
     }
 
+    void OpenGlShader::setFloat(const std::string &name, float value)
+    {
+        setUniform1f(name, value);
+    }
+
     void OpenGlShader::setFloat3(const std::string &name, const glm::vec3 &value)
     {
         setUniform3f(name, value);

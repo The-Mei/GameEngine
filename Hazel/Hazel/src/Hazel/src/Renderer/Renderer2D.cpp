@@ -83,6 +83,7 @@ namespace Hazel
     {
         sData->textureShader->bind();
         sData->textureShader->setFloat4("u_color", color);
+        sData->textureShader->setFloat("u_tilingfactor", 1.0f);
 
         glm::mat4 transfrom = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
         sData->textureShader->setMat4("u_Model", transfrom);
@@ -95,18 +96,62 @@ namespace Hazel
         sData->whiteTexture->unBind();
     }
 
-    void Renderer2D::drawQuad(const glm::vec2 &position, const glm::vec2 &size, const Ref<Texture2D> &texture)
+    void Renderer2D::drawQuad(const glm::vec2 &position, const glm::vec2 &size, const Ref<Texture2D> &texture, float tilingFactor, const glm::vec4 &tintColor)
     {
-        drawQuad({position.x, position.y, 0.0f}, size, texture);
+        drawQuad({position.x, position.y, 0.0f}, size, texture, tilingFactor, tintColor);
     }
 
-    void Renderer2D::drawQuad(const glm::vec3 &position, const glm::vec2 &size, const Ref<Texture2D> &texture)
+    void Renderer2D::drawQuad(const glm::vec3 &position, const glm::vec2 &size, const Ref<Texture2D> &texture, float tilingFactor, const glm::vec4 &tintColor)
     {
         sData->textureShader->bind();
 
-        sData->textureShader->setFloat4("u_color", glm::vec4(1.0f));
+        sData->textureShader->setFloat4("u_color", tintColor);
+        sData->textureShader->setFloat("u_tilingfactor", tilingFactor);
 
         glm::mat4 transfrom = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
+        sData->textureShader->setMat4("u_Model", transfrom);
+
+        texture->bind();
+
+        sData->quadVA->bind();
+        RenderCommand::drawIndexed(sData->quadVA);
+
+        texture->unBind();
+    }
+
+    void Renderer2D::drawRotateQuad(const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec4 &color)
+    {
+        drawRotateQuad({position.x, position.y, 0.0f}, size, rotation, color);
+    }
+    void Renderer2D::drawRotateQuad(const glm::vec3 &position, const glm::vec2 &size, float rotation, const glm::vec4 &color)
+    {
+        sData->textureShader->bind();
+        sData->textureShader->setFloat4("u_color", color);
+        sData->textureShader->setFloat("u_tilingfactor", 1.0f);
+
+        glm::mat4 transfrom = glm::translate(glm::mat4(1.0f), position) * glm::rotate(glm::mat4(1.0f), rotation, {0.0f, 0.0f, 1.0f}) * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
+        sData->textureShader->setMat4("u_Model", transfrom);
+
+        sData->whiteTexture->bind();
+
+        sData->quadVA->bind();
+        RenderCommand::drawIndexed(sData->quadVA);
+
+        sData->whiteTexture->unBind();
+    }
+
+    void Renderer2D::drawRotateQuad(const glm::vec2 &position, const glm::vec2 &size, float rotation, const Ref<Texture2D> &texture, float tilingFactor, const glm::vec4 &tintColor)
+    {
+        drawRotateQuad({position.x, position.y, 0.0f}, size, rotation, texture, tilingFactor, tintColor);
+    }
+    void Renderer2D::drawRotateQuad(const glm::vec3 &position, const glm::vec2 &size, float rotation, const Ref<Texture2D> &texture, float tilingFactor, const glm::vec4 &tintColor)
+    {
+        sData->textureShader->bind();
+
+        sData->textureShader->setFloat4("u_color", tintColor);
+        sData->textureShader->setFloat("u_tilingfactor", tilingFactor);
+
+        glm::mat4 transfrom = glm::translate(glm::mat4(1.0f), position) * glm::rotate(glm::mat4(1.0f), rotation, {0.0f, 0.0f, 1.0f}) * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
         sData->textureShader->setMat4("u_Model", transfrom);
 
         texture->bind();
